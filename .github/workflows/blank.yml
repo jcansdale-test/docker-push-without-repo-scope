@@ -2,16 +2,7 @@ name: Publish Docker Image
  
 on:
   push:
-
   workflow_dispatch:
-    inputs:
-      token:
-        description: 'Token to use when publishing image'     
-        required: true
-      image:
-        description: 'The  image name to publish'     
-        required: true
-        default: ghost-images
 
 jobs:
   build:
@@ -20,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.inputs.image }}
+      IMAGE: docker.pkg.github.com/${{ github.repository }}/docker-push-without-repo-scope
 
     steps:
       - run: docker pull alpine
 
       - run: docker tag alpine ${{ env.IMAGE }}
 
-      - run: docker login https://docker.pkg.github.com -u token -p ${{ github.event.inputs.token }}
+      - run: docker login https://docker.pkg.github.com -u token -p ${{ secrets.WRITE_PACKAGES_TOKEN }}
 
       - run: docker push ${{ env.IMAGE }}
