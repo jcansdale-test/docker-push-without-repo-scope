@@ -1,2 +1,2 @@
-# ghost-images
-See if we can partially publish using write:packages scope.
+# Publish a Docker image without `repo` scope
+
